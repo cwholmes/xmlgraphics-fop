@@ -130,7 +130,7 @@ public class PDFDocument {
     protected int gStateObjectCount;
 
     /* TODO: Should be modified (works only for image subtype) */
-    private Map<String, PDFXObject> xObjectsMap = new HashMap<String, PDFXObject>();
+    private Map<Integer, PDFXObject> xObjectsMap = new HashMap<Integer, PDFXObject>();
 
     private Map<String, PDFFont> fontMap = new HashMap<String, PDFFont>();
 
@@ -800,7 +800,7 @@ public class PDFDocument {
      */
     @Deprecated
     public PDFImageXObject getImage(String key) {
-        return (PDFImageXObject)this.xObjectsMap.get(key);
+        return (PDFImageXObject)this.xObjectsMap.get(key == null ? null : key.hashCode());
     }
 
     /**
@@ -810,7 +810,7 @@ public class PDFDocument {
      * @return the PDFXObject for the key if found
      */
     public PDFXObject getXObject(String key) {
-        return this.xObjectsMap.get(key);
+        return this.xObjectsMap.get(key == null ? null : key.hashCode());
     }
 
     /**
@@ -858,7 +858,11 @@ public class PDFDocument {
      */
     public PDFImageXObject addImage(PDFResourceContext res, PDFImage img) {
         // check if already created
-        String key = img.getKey();
+        Integer key;
+        {
+            String imgKey = img.getKey();
+            key = imgKey == null ? null : imgKey.hashCode();
+        }
         PDFImageXObject xObject = (PDFImageXObject)this.xObjectsMap.get(key);
         if (xObject != null) {
             if (res != null) {
@@ -899,7 +903,7 @@ public class PDFDocument {
         String key) {
 
         // check if already created
-        PDFFormXObject xObject = (PDFFormXObject)xObjectsMap.get(key);
+        PDFFormXObject xObject = (PDFFormXObject)xObjectsMap.get(key == null ? null : key.hashCode());
         if (xObject != null) {
             if (res != null) {
                 res.addXObject(xObject);
@@ -916,7 +920,7 @@ public class PDFDocument {
         if (res != null) {
             res.addXObject(xObject);
         }
-        this.xObjectsMap.put(key, xObject);
+        this.xObjectsMap.put(key == null ? null : key.hashCode(), xObject);
         return xObject;
     }
 

@@ -58,12 +58,12 @@ public final class ImageUtil {
      */
     public static int getInt(String value) {
         String retString = "";
-        StringBuffer s = new StringBuffer(value);
-        int len = s.length();
+//        StringBuffer s = new StringBuffer(value);
+        int len = value.length();
 
         for (int i = 0; i < len; i++) {
-            if (Character.isDigit(s.charAt(i))) {
-                retString += s.charAt(i);
+            if (Character.isDigit(value.charAt(i))) {
+                retString += value.charAt(i);
             } else {
                 //for example "600.0pt" has to be exited,
                 //when the dot is reached.
@@ -87,12 +87,7 @@ public final class ImageUtil {
      *         false   Other string
      */
     public static boolean isPercent(String value) {
-        if (value.endsWith("%")) {
-            return true;
-
-        }
-
-        return false;
+        return value.endsWith("%");
     }
 
     /**
@@ -173,7 +168,7 @@ public final class ImageUtil {
 
             for (int i = 0; i < length; i++) {
                 bitMoving -= bit;
-                int iData = (int) data[startAt + i];
+                int iData = data[startAt + i];
                 if (iData < 0) {
                     iData += 256;
                 }
@@ -187,7 +182,7 @@ public final class ImageUtil {
 
             for (int i = 0; i < length; i++) {
                 bitMoving -= bit;
-                int iData = (int) data[startAt - i];
+                int iData = data[startAt - i];
                 if (iData < 0) {
                     iData += 256;
                 }
